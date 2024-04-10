@@ -1,0 +1,43 @@
+cpp
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+int _print()
+{
+	cout;
+	return 0;
+}
+int _print(int input)
+{
+	cout << input;
+	return 0;
+}
+int _print(string input)
+{
+	cout << input;
+	return 0;
+}
+int _print(bool value)
+{
+	if (value)
+		cout << "True";
+	else
+		cout << "False";
+	return 0;
+}
+
+int _inputNum()
+{
+	int inValue;
+	cin >> inValue;
+	return inValue;
+}
+
+string _inputString()
+{
+	string inValue;
+	cin >> inValue;
+	return inValue;
+}

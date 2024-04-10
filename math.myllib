@@ -1,0 +1,45 @@
+cpp
+#include <string>
+#include <iostream>
+
+using namespace std;
+
+int _add(int a, int b)
+{
+	return a + b;
+}
+
+int _sub(int a, int b)
+{
+	return a - b;
+}
+
+int _mul(int a, int b)
+{
+	return a * b;
+}
+
+int _div(int a, int b)
+{
+	return a / b;
+}
+
+int _pow(int a, int b)
+{
+	return pow(a, b);
+}
+
+bool _equals(int a, int b)
+{
+	return a == b;
+}
+
+bool _or(bool a, bool b)
+{
+	return a || b;
+}
+
+bool _and(bool a, bool b)
+{
+	return a && b;
+}
