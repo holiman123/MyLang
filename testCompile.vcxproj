@@ -152,9 +152,31 @@
     <ResourceCompile Include="testCompile.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="math.myllib" />
-    <None Include="IO.myllib" />
-    <None Include="string.myllib" />
+    <CopyFileToFolders Include="math.myllib">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="IO.myllib">
+      <DeploymentContent>false</DeploymentContent>
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+    <CopyFileToFolders Include="string.myllib">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="arduinoProg.myl">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="arduinoNano.myllib">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="arduinoDallasTemp.myllib">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

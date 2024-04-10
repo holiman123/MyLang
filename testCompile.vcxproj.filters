@@ -28,6 +28,12 @@
   <ItemGroup>
     <CopyFileToFolders Include="main.myl" />
     <CopyFileToFolders Include="compile.bat" />
+    <CopyFileToFolders Include="IO.myllib" />
+    <CopyFileToFolders Include="math.myllib" />
+    <CopyFileToFolders Include="string.myllib" />
+    <CopyFileToFolders Include="arduinoProg.myl" />
+    <CopyFileToFolders Include="arduinoNano.myllib" />
+    <CopyFileToFolders Include="arduinoDallasTemp.myllib" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Token.h">
@@ -50,10 +56,5 @@
     <ResourceCompile Include="testCompile.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="IO.myllib" />
-    <None Include="math.myllib" />
-    <None Include="string.myllib" />
   </ItemGroup>
 </Project>

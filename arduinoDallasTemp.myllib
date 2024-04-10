@@ -1,0 +1,23 @@
+cpp
+
+#include "OneWire.h"
+#include "DallasTemperature.h"
+
+OneWire oneWire;
+DallasTemperature sensors;
+
+void _dallasTempBegin(int pin)
+{
+	oneWire = *new OneWire(pin);
+	sensors = *new DallasTemperature(&oneWire);
+	sensors.begin();
+}
+
+int _dallasTempGetC()
+{
+	sensors.requestTemperatures();
+
+	float tempC = sensors.getTempCByIndex(0);
+
+	return (int)tempC;
+}

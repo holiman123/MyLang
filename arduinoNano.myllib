@@ -1,0 +1,133 @@
+cpp
+
+#define _HIGH 0x1
+#define _LOW  0x0
+
+#define _INPUT 0x0
+#define _OUTPUT 0x1
+#define _INPUT_PULLUP 0x2
+
+#define _PI 3.1415926535897932384626433832795
+#define _HALF_PI 1.5707963267948966192313216916398
+#define _TWO_PI 6.283185307179586476925286766559
+#define _DEG_TO_RAD 0.017453292519943295769236907684886
+#define _RAD_TO_DEG 57.295779513082320876798154814105
+#define _EULER 2.718281828459045235360287471352
+
+#define _PIN_SPI_SS    (10)
+#define _PIN_SPI_MOSI  (11)
+#define _PIN_SPI_MISO  (12)
+#define _PIN_SPI_SCK   (13)
+
+static const uint8_t _SS = _PIN_SPI_SS;
+static const uint8_t _MOSI = _PIN_SPI_MOSI;
+static const uint8_t _MISO = _PIN_SPI_MISO;
+static const uint8_t _SCK = _PIN_SPI_SCK;
+
+#define _PIN_WIRE_SDA        (18)
+#define _PIN_WIRE_SCL        (19)
+
+static const uint8_t _SDA = _PIN_WIRE_SDA;
+static const uint8_t _SCL = _PIN_WIRE_SCL;
+
+#define _LED_BUILTIN 13
+
+#define _PIN_A0   (14)
+#define _PIN_A1   (15)
+#define _PIN_A2   (16)
+#define _PIN_A3   (17)
+#define _PIN_A4   (18)
+#define _PIN_A5   (19)
+#define _PIN_A6   (20)
+#define _PIN_A7   (21)
+
+static const uint8_t _A0 = _PIN_A0;
+static const uint8_t _A1 = _PIN_A1;
+static const uint8_t _A2 = _PIN_A2;
+static const uint8_t _A3 = _PIN_A3;
+static const uint8_t _A4 = _PIN_A4;
+static const uint8_t _A5 = _PIN_A5;
+static const uint8_t _A6 = _PIN_A6;
+static const uint8_t _A7 = _PIN_A7;
+
+/* Port Data Register (generic) */
+#define    _PORT13       13
+#define    _PORT12       12
+#define    _PORT11       11
+#define    _PORT10       10
+#define    _PORT9        9
+#define    _PORT8        8
+#define    _PORT7        7
+#define    _PORT6        6
+#define    _PORT5        5
+#define    _PORT4        4
+#define    _PORT3        3
+#define    _PORT2        2
+#define    _PORT1        1
+#define    _PORT0        0
+
+/* Port Data Direction Register (generic) */
+#define    _DD13         13
+#define    _DD12         12
+#define    _DD11         11
+#define    _DD10         10
+#define    _DD9          9
+#define    _DD8          8
+#define    _DD7          7
+#define    _DD6          6
+#define    _DD5          5
+#define    _DD4          4
+#define    _DD3          3
+#define    _DD2          2
+#define    _DD1          1
+#define    _DD0          0
+
+/* Port Input Pins (generic) */
+#define    _PIN13        13
+#define    _PIN12        12
+#define    _PIN11        11
+#define    _PIN10        10
+#define    _PIN9         9
+#define    _PIN8         8
+#define    _PIN7         7
+#define    _PIN6         6
+#define    _PIN5         5
+#define    _PIN4         4
+#define    _PIN3         3
+#define    _PIN2         2
+#define    _PIN1         1
+#define    _PIN0         0
+
+void _pinMode(uint8_t pin, uint8_t mode)
+{
+	pinMode(pin, mode);
+}
+
+void _digitalWrite(uint8_t pinIndex, int value)
+{
+	digitalWrite(pinIndex, value);
+}
+
+int _digitalRead(uint8_t pinIndex)
+{
+	digitalRead(pinIndex);
+}
+
+void _delay(int milliseconds)
+{
+	delay(milliseconds);
+}
+
+void _beginSerial(int boadRate)
+{
+	Serial.begin(boadRate);
+}
+
+void _serialWrite(int i)
+{
+	Serial.println(i);
+}
+void _serialWrite(const uint8_t*buffer, size_t size)
+{
+	Serial.write(buffer, size);
+}

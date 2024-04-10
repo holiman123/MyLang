@@ -1,0 +1,21 @@
+import "arduinoNano.myllib"
+import "arduinoDallasTemp.myllib"
+
+function void setup()
+{
+	pinMode(LED_BUILTIN, OUTPUT)
+	dallasTempBegin(3)
+	beginSerial(9600)
+}
+
+function void loop()
+{
+	digitalWrite(LED_BUILTIN, HIGH)
+	delay(500)
+	digitalWrite(LED_BUILTIN, LOW)
+	delay(500)
+
+	int c = dallasTempGetC()
+
+	serialWrite(c)
+}

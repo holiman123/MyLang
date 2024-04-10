@@ -49,12 +49,6 @@ string MainNode::DefineFunctions()
 
 		cppCode += node->Parse() + "\n";
 	}
-	/*vector<Node*> newTree;
-	for (size_t i = 0; i < nodes.size(); i++)
-	{
-		if (dynamic_cast<FuncDefineNode*> (nodes[i]) == NULL)
-			newTree.push_back(nodes[i]);
-	}*/
 
 	return cppCode;
 }

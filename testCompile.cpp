@@ -8,6 +8,8 @@
 
 using namespace std;
 
+static string helpStr = "Commands:\n\tcompile - compiles .myl file to .exe or to arduino\n\thelp - show this message\n\nFlags:\n\t--file\t\t-f - path to file to compile\n\t--paltform\t-p - specify to which platform compile (windows/ arduino)\n\t--COMport\t-c - specify COM port to upload arduino sketch\n\t--board\t\t-b - specify arduino board type (Fully Qualified Board Name)\n\t--debug\t\t-d - do show debug information\n\t--start\t\t-s - do start program after compilation";
+
 void initTokinizers()
 {
     vector<string> posVars = { "int", "float", "bool", "string"};
@@ -347,47 +349,203 @@ string compileToCpp(string code)
     string cppCode = libs + functions + "int main() {\n" + body + "\nreturn 0; \n }";
     return cppCode;
 }
-
-int main(int argc, char *argv[])
+string compileToCppArduino(string code)
 {
-    string arg1 = argv[1];
-    string fileFormat = arg1.substr(arg1.length()-3, 3);
-    string fileName = arg1.substr(0, arg1.length() - 4);
-    if (fileFormat.compare("myl"))
-        return 0;
+    initTokinizers();
+    vector<Token> tokens = Tokenize(code);
 
+    MainNode* AST = CreateAST(tokens);
+    string libs = AST->ImportLibs();
+    string functions = AST->DefineFunctions();
+    string cppCode = libs + functions + "\nvoid setup() { _setup(); }\nvoid loop() { _loop(); }";
+    return cppCode;
+}
+
+
+static string readFile(string path)
+{
     ifstream inputFileStream;
-    inputFileStream.open(arg1);
+    inputFileStream.open(path);
 
-    string allText;
-    string line;
+    string allCode;
     if (inputFileStream.is_open())
     {
+        string line;
         while (getline(inputFileStream, line))
         {
-            allText.append(line + "\n");
+            allCode.append(line + "\n");
         }
     }
 
-    string directory = argv[0];//program full path + name of binary file
-    directory.erase(directory.find_last_of('\\') + 1);//remove name of binary file
-
-    ofstream outputCppFile;
-    outputCppFile.open(fileName + "Res.cpp");    
-
-    outputCppFile << compileToCpp(allText);
-
-    outputCppFile.close();
     inputFileStream.close();
 
-    string resCommand = "compile.bat " + fileName + "Res.cpp";
-    system(resCommand.c_str());    
+    return allCode;
+}
+
+static string getFileName(string path)
+{
+    int indexOfSlash = path.find_last_of('\\', path.length());
+    string file = path;
+    if (indexOfSlash != -1)
+        file = path.erase(0, indexOfSlash);
+    int indexOfDot = path.find_last_of('.', path.length());
+    string name = file.erase(indexOfDot, file.length());
+
+    return name;
+}
+
+static void compileForWindows(string code, string fileName)
+{
+    ofstream outputCppFile;
+    outputCppFile.open(fileName + ".cpp");
+
+    outputCppFile << compileToCpp(code);
+
+    outputCppFile.close();
+
+    string resCommand = "compile.bat " + fileName + ".cpp";
+    system(resCommand.c_str());
+}
+static void compileForArduino(string code, string fileName, string board, string port, string upload)
+{
+    ofstream outputCppFile;
+    outputCppFile.open("ArduinoBuild\\ArduinoBuild.ino");
+
+    outputCppFile << compileToCppArduino(code);
+
+    outputCppFile.close();
+
+    string resCommand = "arduino-cli compile " + board + " " + port + " " + upload + " " + "ArduinoBuild\\ArduinoBuild.ino";
+    system(resCommand.c_str());
+}
+
+int main(int argc, char *argv[])
+{
+    if (argc <= 1)
+    {
+        cout << helpStr << endl;
+    }
     
-    //system("cls");
-    cout << "\t--== MyLang program start ==--" << endl;
+    for (size_t i = 1; i < argc; i++)
+    {
+        string command = argv[i];
+        string t = argv[i + 1];
 
-    system((fileName + "Res.exe").c_str());
+        if (command == "compile")
+        {
+            string filePath = "";
+            string platform = "windows";
+            string COMport = "";
+            string boardName = "-b arduino:avr:nano";
+            bool doDebug = false;
+            bool doStart = false;
+            string doUpload = "";
 
-    getchar();
+            // Get flags
+            i++;
+            for (;i < argc; i++)
+            {
+                string flag = argv[i];
+                if (flag == "--file" || flag == "-f")
+                {
+                    i++;
+                    filePath = argv[i];
+                }
+                else if (flag == "--platform" || flag == "-p")
+                {
+                    i++;
+                    platform = argv[i];
+                }
+                else if (flag == "--COMport" || flag == "-c")
+                {
+                    i++;
+                    COMport = (argv[i]);
+                    COMport = "-p" + COMport;
+                }
+                else if (flag == "--board" || flag == "-b")
+                {
+                    i++;
+                    boardName = (argv[i]);
+                    boardName = "-b" + boardName;
+                }
+                else if (flag == "--debug" || flag == "-d")
+                {
+                    doDebug = true;
+                }
+                else if (flag == "--start" || flag == "-s")
+                {
+                    doStart = true;
+                }
+                else if (flag == "--upload" || flag == "-u")
+                {
+                    doUpload = "-u -v";
+                }
+            } 
+
+            string allCode = readFile(filePath);
+            string fileName = getFileName(filePath);
+
+            if (platform == "windows")
+            {
+                compileForWindows(allCode, fileName);
+
+                if (doStart)
+                {
+                    if (!doDebug)
+                        system("cls");
+                    else
+                        cout << "\t--== MyLang program start ==--" << endl;
+
+                    system((fileName + ".exe").c_str());
+                }
+            }
+            else if (platform == "arduino")
+            {
+                compileForArduino(allCode, fileName, boardName, COMport, doUpload);
+            }
+        }
+        else if (command == "help")
+        {
+            cout << helpStr << endl;
+        }
+    }
+
+    //// Arg1 file to compile
+    //string arg1 = argv[1];
+    //string fileFormat = arg1.substr(arg1.length()-3, 3);
+    //string fileName = arg1.substr(0, arg1.length() - 4);
+    //if (fileFormat.compare("myl"))
+    //    return 0;
+
+    //ifstream inputFileStream;
+    //inputFileStream.open(arg1);
+
+    //string allCode;
+    //if (inputFileStream.is_open())
+    //{
+    //    string line;
+    //    while (getline(inputFileStream, line))
+    //    {
+    //        allCode.append(line + "\n");
+    //    }
+    //}
+
+    //ofstream outputCppFile;
+    //outputCppFile.open(fileName + ".cpp");
+
+    //outputCppFile << compileToCpp(allCode);
+
+    //outputCppFile.close();
+    //inputFileStream.close();
+
+    //string resCommand = "compile.bat " + fileName + ".cpp";
+    //system(resCommand.c_str());
+    //
+    ////system("cls");
+    //cout << "\t--== MyLang program start ==--" << endl;
+
+    //system((fileName + ".exe").c_str());
+
+    //getchar();
     return 1;
 }
