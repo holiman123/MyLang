@@ -132,7 +132,7 @@
     <ClCompile Include="testCompile.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="main.myl">
+    <CopyFileToFolders Include="fibanacci.myl">
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>
@@ -175,6 +175,11 @@
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="arduinoDallasTemp.myllib">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="main.myl">
       <FileType>Document</FileType>
     </CopyFileToFolders>
   </ItemGroup>

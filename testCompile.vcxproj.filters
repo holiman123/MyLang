@@ -26,7 +26,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CopyFileToFolders Include="main.myl" />
+    <CopyFileToFolders Include="fibanacci.myl" />
     <CopyFileToFolders Include="compile.bat" />
     <CopyFileToFolders Include="IO.myllib" />
     <CopyFileToFolders Include="math.myllib" />
@@ -34,6 +34,7 @@
     <CopyFileToFolders Include="arduinoProg.myl" />
     <CopyFileToFolders Include="arduinoNano.myllib" />
     <CopyFileToFolders Include="arduinoDallasTemp.myllib" />
+    <CopyFileToFolders Include="main.myl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Token.h">

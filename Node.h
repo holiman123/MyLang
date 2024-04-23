@@ -170,3 +170,10 @@ public:
 	using Node::Parse;
 	string Parse() override;
 };
+
+class PipeNode : public Node
+{
+public:
+	using Node::Parse;
+	string Parse() override;
+};

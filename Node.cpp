@@ -408,3 +408,29 @@ string FuncVarNode::Parse()
 {
 	return valueName;
 }
+
+// InitVar, functions nodes, resVar
+string PipeNode::Parse()
+{
+	vector<Node*> reversed;
+
+	for (int i = nodes.size() - 1; i >= 0; i--)
+		reversed.push_back(nodes[i]);
+
+	string cppCode = "";
+	cppCode += reversed[0]->Parse();
+	cppCode += " = ";
+	for (int i = 1; i < reversed.size() - 1; i++)
+	{
+		cppCode += reversed[i]->Parse();
+		cppCode += "(";
+	}
+	cppCode += nodes[0]->Parse();
+	for (int i = 1; i < reversed.size() - 1; i++)
+	{
+		cppCode += ")";
+	}
+	cppCode += ";\n";
+
+	return cppCode;
+}

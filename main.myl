@@ -2,59 +2,27 @@ import "IO.myllib"
 import "math.myllib"
 import "string.myllib"
 
-function int fibPart(int prev, int curr, int n, int index)
+function int f1(int x)
 {
-	if equals(n, index)
-	{
-		return add(prev, curr)
-	}
-
-	return fibPart(curr, add(curr, prev), n, add(index, 1))
+	return add(x, 1)
 }
 
-function int fibonacci(int n)
+function int f2(int x)
 {
-	int prev = 0
-	int curr = 1
-
-	return fibPart(prev, curr, n, 0)
+	return add(x, 2)
 }
 
-function bool body(int index)
+function int f3(int x)
 {
-	print("Write n to calculate fibonacci: ")
-	string n = inputString()
-	print("\n")
-
-	if or(equals(n, "e"), equals(n, "exit"))
-	{
-		return true
-	}
-
-	print("Fibonacci for ")
-	print(n)
-	print(": ")
-	print(fibonacci(toInt(n)))
-	print("\n")
-
-	return false
+	return add(x, 3)
 }
 
-function int loop(int index, int max, function bool loopBody(int))
-{
-	if loopBody(index)
-	{
-		return 0
-	}
+int x = 10
+int y
+int y2
+pipe x > f1 > f2 > f3 to y
+pipe x > f1 > f1 > f1 to y2
 
-	if not equals(index, max)
-	{
-		loop(add(index, 1), max, loopBody)
-	}
-
-	return 0
-}
-
-print("To exit write (exit) or (e)\n")
-
-loop(0, -1, body)
+print(y)
+print(y2)
+inputString() 

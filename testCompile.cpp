@@ -14,9 +14,9 @@ void initTokinizers()
 {
     vector<string> posVars = { "int", "float", "bool", "string"};
 
-    Identifier::endSymbols = " =+-/*|&^%,.!{}[]()'\";:~\n\t\0";
-    Keyword::posValues = { "void", "int", "float", "bool", "if", "func", "else", "string", "return", "import", "function"};
-    Keyword::endSymbols = " =+-/*|&^%,.!{}[]()'\";:~\n\t\0";
+    Identifier::endSymbols = " =+-/*|&^%,.!{}[]()'>\";:~\n\t\0";
+    Keyword::posValues = { "void", "int", "float", "bool", "if", "func", "else", "string", "return", "import", "function", "pipe", "to"};
+    Keyword::endSymbols = " =+-/*|&^%,.!{}[]()'>\";:~\n\t\0";
     Keyword::posVars = posVars;
     Separator::posValues = { ";", ":", "(", ")", "{", "}", "[", "]", ".", ",", "\n", "\t"};
     // Longest OP's must be first
@@ -296,7 +296,42 @@ MainNode* CreateAST(vector<Token> tokens)
                 continue;
             }
 
-            throw invalid_argument("Wrong Syntax!");
+            if (currentToken.value == "pipe")
+            {
+                position++;
+                if (tokens[position].type != TokenType::Identifier)
+                    throw invalid_argument("Wrong syntax!");
+
+                PipeNode* pipe = new PipeNode();
+
+                IdentifierNode* initVarNode = new IdentifierNode(tokens[position].value);
+
+                pipe->nodes.push_back(initVarNode);
+
+                position++;
+                while (tokens[position].value != "to")
+                {
+                    if (tokens[position].value == ">")
+                    {
+                        position++;
+                        IdentifierNode* funcId = new IdentifierNode(tokens[position].value);
+                        pipe->nodes.push_back(funcId);
+                    }
+
+                    position++;
+                }
+                position++;
+
+                IdentifierNode* resVarNode = new IdentifierNode(tokens[position].value);
+                pipe->nodes.push_back(resVarNode);
+
+                res->nodes.push_back(pipe);
+                position++;
+
+                continue;
+            }
+
+            throw invalid_argument("Wrong syntax!");
         }
 
         // Identifier
