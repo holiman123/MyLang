@@ -6,7 +6,7 @@ using namespace std;
 
 int _print()
 {
-	cout;
+	cout << endl;
 	return 0;
 }
 int _print(int input)
@@ -28,7 +28,7 @@ int _print(bool value)
 	return 0;
 }
 
-int _inputNum()
+int _inputNumber()
 {
 	int inValue;
 	cin >> inValue;

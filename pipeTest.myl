@@ -1,0 +1,33 @@
+import "IO.myllib"
+import "math.myllib"
+import "string.myllib"
+
+function int f1(int x)
+{
+	return add(x, 1)
+}
+
+function int f2(int x)
+{
+	return add(x, 2)
+}
+
+function int f3(int x)
+{
+	return add(x, 3)
+}
+
+function int f4(int x)
+{
+	return 0
+}
+
+int x = 10
+int y
+int y2
+pipe x > f1 > f2 > f3 > f4 to y
+pipe x > f1 > f1 > f1 to y2
+
+print(y)
+print(y2)
+inputString() 

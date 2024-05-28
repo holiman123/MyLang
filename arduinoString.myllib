@@ -1,0 +1,44 @@
+cpp
+
+String _toString(int i)
+{
+	return String(i);
+}
+
+String _toString(bool b)
+{
+	return String(b);
+}
+
+int _toInt(String str)
+{
+	return str.toInt();
+}
+
+String _concat(String s1, String s2)
+{
+	return s1 + s2;
+}
+
+String _concat(String s1, int s2)
+{
+	return s1 + _toString(s2);
+}
+String _concat(int s1, String s2)
+{
+	return _toString(s1) + s2;
+}
+
+String _concat(String s1, bool s2)
+{
+	return s1 + _toString(s2);
+}
+String _concat(bool s1, String s2)
+{
+	return _toString(s1) + s2;
+}
+
+bool _equals(String a, String b)
+{
+	return a.compareTo(b);
+}

@@ -1,5 +1,6 @@
 import "arduinoNano.myllib"
 import "arduinoDallasTemp.myllib"
+import "arduinoString.myllib"
 
 function void setup()
 {
@@ -17,5 +18,5 @@ function void loop()
 
 	int c = dallasTempGetC()
 
-	serialWrite(c)
+	serialWrite(concat(c, " C\n"))
 }

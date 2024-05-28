@@ -1,6 +1,6 @@
 cpp
-#include <string>
-#include <iostream>
+
+#include <math.h>
 
 using namespace std;
 
@@ -32,6 +32,26 @@ int _pow(int a, int b)
 bool _equals(int a, int b)
 {
 	return a == b;
+}
+
+bool _more(int a, int b)
+{
+	return a > b;
+}
+
+bool _less(int a, int b)
+{
+	return a < b;
+}
+
+bool _moreOrEquals(int a, int b)
+{
+	return a >= b;
+}
+
+bool _lessOrEquals(int a, int b)
+{
+	return a <= b;
 }
 
 bool _or(bool a, bool b)

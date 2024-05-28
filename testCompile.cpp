@@ -10,6 +10,35 @@ using namespace std;
 
 static string helpStr = "Commands:\n\tcompile - compiles .myl file to .exe or to arduino\n\thelp - show this message\n\nFlags:\n\t--file\t\t-f - path to file to compile\n\t--paltform\t-p - specify to which platform compile (windows/ arduino)\n\t--COMport\t-c - specify COM port to upload arduino sketch\n\t--board\t\t-b - specify arduino board type (Fully Qualified Board Name)\n\t--debug\t\t-d - do show debug information\n\t--start\t\t-s - do start program after compilation";
 
+void replace_all(std::string& s, std::string const& toReplace, std::string const& replaceWith) {
+    std::string buf;
+    std::size_t pos = 0;
+    std::size_t prevPos;
+
+    // Reserves rough estimate of final size of string.
+    buf.reserve(s.size());
+
+    while (true) {
+        prevPos = pos;
+        pos = s.find(toReplace, pos);
+        if (pos == std::string::npos)
+            break;
+        buf.append(s, prevPos, pos - prevPos);
+        buf += replaceWith;
+        pos += toReplace.size();
+    }
+
+    buf.append(s, prevPos, s.size() - prevPos);
+    s.swap(buf);
+}
+
+string translateStringsToArduino(string input)
+{
+    replace_all(input, "(string)", "(String)");
+    return input;
+}
+
+
 void initTokinizers()
 {
     vector<string> posVars = { "int", "float", "bool", "string"};
@@ -378,6 +407,7 @@ string compileToCpp(string code)
     vector<Token> tokens = Tokenize(code);
     
     MainNode* AST = CreateAST(tokens);
+
     string libs = AST->ImportLibs();
     string functions = AST->DefineFunctions();
     string body = AST->Parse();
@@ -390,9 +420,11 @@ string compileToCppArduino(string code)
     vector<Token> tokens = Tokenize(code);
 
     MainNode* AST = CreateAST(tokens);
+
     string libs = AST->ImportLibs();
     string functions = AST->DefineFunctions();
     string cppCode = libs + functions + "\nvoid setup() { _setup(); }\nvoid loop() { _loop(); }";
+    cppCode = translateStringsToArduino(cppCode);
     return cppCode;
 }
 
@@ -440,6 +472,11 @@ static void compileForWindows(string code, string fileName)
 
     string resCommand = "compile.bat " + fileName + ".cpp";
     system(resCommand.c_str());
+
+    remove((fileName + ".cpp").c_str());
+    remove((fileName + ".obj").c_str());
+
+    cout << "Compilation is done! .exe file created." << endl;
 }
 static void compileForArduino(string code, string fileName, string board, string port, string upload)
 {
@@ -542,6 +579,10 @@ int main(int argc, char *argv[])
         else if (command == "help")
         {
             cout << helpStr << endl;
+        }
+        else
+        {
+            cout << "Unknown command. Use help." << endl;
         }
     }
 

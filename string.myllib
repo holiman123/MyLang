@@ -1,6 +1,5 @@
 cpp
 #include <string>
-#include <iostream>
 
 using namespace std;
 
@@ -29,6 +28,15 @@ string _concat(string s1, int s2)
 	return s1 + _toString(s2);
 }
 string _concat(int s1, string s2)
+{
+	return _toString(s1) + s2;
+}
+
+string _concat(string s1, bool s2)
+{
+	return s1 + _toString(s2);
+}
+string _concat(bool s1, string s2)
 {
 	return _toString(s1) + s2;
 }

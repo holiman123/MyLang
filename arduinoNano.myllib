@@ -131,3 +131,7 @@ void _serialWrite(const uint8_t*buffer, size_t size)
 {
 	Serial.write(buffer, size);
 }
+void _serialWrite(String str)
+{
+	Serial.print(str);
+}

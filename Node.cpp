@@ -7,6 +7,8 @@
 
 using namespace std;
 
+static bool isArduino = false;
+
 string Node::Parse()
 {
 	return "";
