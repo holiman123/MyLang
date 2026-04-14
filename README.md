@@ -1,1 +1,1 @@
-Attempt to create my own programming language for. 
+Attempt to create my own programming language with focus on Arduino boards firmware developing.
